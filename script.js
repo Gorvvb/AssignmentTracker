@@ -6,3 +6,4 @@ const supabase = createClient(
 );
 
 console.log(supabase);
+console.log("Hello, world!");
