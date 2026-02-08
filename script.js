@@ -16,60 +16,59 @@ const userInfoDiv = document.getElementById("userInfo");
 const userDataP = document.getElementById("userData");
 
 signupBtn.addEventListener("click", async () => {
-      const email = emailInput.value;
-      const password = passwordInput.value;
-      const username = usernameInput.value;
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    const username = usernameInput.value;
 
-      const { data: authData, error: authError } = await supabase.auth.signUp({
+    const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password
-      });
+    });
 
-      if (authError) {
+    if (authError) {
         alert("Signup error: " + authError.message);
         return;
-      }
+    }
 
-      // Insert user into users table
-      const { data, error } = await supabase
+    const session = await supabase.auth.getSession();
+    const userId = session.data.session.user.id;
+
+    const { data, error } = await supabase
         .from("users")
-        .insert([{ username, email }]);
+        .insert([{ id: userId, username, email }]);
 
-      if (error) {
+    if (error) {
         alert("Error creating user row: " + error.message);
         return;
-      }
+    }
 
-      alert("Signup successful! Please check your email for confirmation.");
+    alert("Signup successful! Please check your email for confirmation.");
 });
 
-    // Login
-    loginBtn.addEventListener("click", async () => {
-      const email = emailInput.value;
-      const password = passwordInput.value;
+loginBtn.addEventListener("click", async () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
 
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password
-      });
+    });
 
-      if (authError) {
+    if (authError) {
         alert("Login error: " + authError.message);
         return;
-      }
+    }
 
-      // Fetch user row
-      const { data: userRow, error: userError } = await supabase
+    const { data: userRow, error: userError } = await supabase
         .from("users")
         .select("*")
         .single();
 
     if (userError) {
-    	alert("Error fetching user row: " + userError.message);
-    	return;
+        alert("Error fetching user row: " + userError.message);
+        return;
     }
 
-    // Show user info
     userDataP.textContent = JSON.stringify(userRow, null, 2);
     userInfoDiv.style.display = "block";
     document.getElementById("auth").style.display = "none";
