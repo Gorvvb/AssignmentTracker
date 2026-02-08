@@ -63,29 +63,29 @@ button {
     transition: background 0.2s ease;
 }
 
-#signupBtn {
+#signupButton {
     background-color: #4CAF50;
 }
 
-#signupBtn:hover {
+#signupButton:hover {
     background-color: #45a049;
 }
 
-#loginBtn {
+#loginButton {
     background-color: #008CBA;
 }
 
-#loginBtn:hover {
+#loginButton:hover {
     background-color: #007bb5;
 }
 
-#logoutBtn {
+#logoutButton {
     background-color: #f44336;
     margin-top: 10px;
     width: 100%;
 }
 
-#logoutBtn:hover {
+#logoutButton:hover {
     background-color: #da190b;
 }
 
